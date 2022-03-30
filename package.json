@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
   "scripts": {
-    "start": "node dir/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dir/index.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
     "axios": "^0.26.1"
   },
   "devDependencies": {
+    "@types/jest": "^27.4.1",
     "@types/node": "^17.0.23",
     "jest": "^27.5.1"
   }

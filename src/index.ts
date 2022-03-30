@@ -2,7 +2,7 @@ import { getRepoData, getReposWithFiveStars, getStarsSum, sortReposByUpdateDate,
 import * as fs from 'fs';
 
 const url: string = "https://api.github.com/orgs/stackbuilders/repos";
-const mockPath: string = "./mock/3_entries/data"; // To avoid requests limit timers using getMockedRepoData function
+const mockPath: string = "./data/mock/3_entries/data"; // To avoid requests limit timers using getMockedRepoData function
 
 (async () => {
     const data = await getRepoData(url);
