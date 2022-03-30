@@ -22,9 +22,11 @@ const mockPath: string = "./data/mock/3_entries/data"; // To avoid requests limi
     // Write only the total stars
     fs.writeFileSync('./data/stars_sum.txt', getStarsSum(data).toString());
 
+    // Write only top five repos with more stars
     const topFiveText = JSON.stringify(getTopFiveRepos(data));
     fs.writeFileSync('./data/top_five_data.json', topFiveText);
 
+    // Write only repos sorted by alpha and no repo that starts with "h"
     const sortedText = JSON.stringify(removeReposWithLetter(sortReposAlpha(data)));
     fs.writeFileSync('./data/sorted_alpha_data.json', sortedText);
 })();

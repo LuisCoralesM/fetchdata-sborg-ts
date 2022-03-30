@@ -35,13 +35,14 @@ export function sortReposAlpha(data: RepoData[]): RepoData[] {
     return data.sort((a, b) => a.repo_name.localeCompare(b.repo_name));
 }
 
+// Remove repos that starts by "h" or any passed letter
 export function removeReposWithLetter(data: RepoData[], letter: string = "h"): RepoData[] {
     return data.filter(data => {
         return !(data.repo_name.toLowerCase().indexOf(letter) === 0);
     });
 }
 
-// From the GitHub API response, get the needed data
+// From thedata.repo_name.toLowerCase().indexOf(letter) === 0 GitHub API response, get the needed data
 export async function getRepoData(url: string): Promise<RepoData[]> {
     let urlBuilder = (page: number) => url + `?per_page=100&page=${page}`;
 
