@@ -1,0 +1,27 @@
+{
+  "name": "fetchdata-sborg-ts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dir/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisCoralesM/fetchdata-sborg-ts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuisCoralesM/fetchdata-sborg-ts/issues"
+  },
+  "homepage": "https://github.com/LuisCoralesM/fetchdata-sborg-ts#readme",
+  "dependencies": {
+    "axios": "^0.26.1"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "jest": "^27.5.1"
+  }
+}
