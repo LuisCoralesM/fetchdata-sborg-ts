@@ -1,17 +1,10 @@
 import * as fs from 'fs';
 import axios from 'axios'
-
-type RepoData = {
-    repo_name: string,
-    url: string,
-    updated_at: string,
-    stars: number
-};
+import { RepoData, APIResponse } from './interfaces';
 
 // Fetch the API url
-const fetchData = async (url: string) => {
+async function fetchData(url: string): Promise<APIResponse[]> {
     const response = await axios.get(url);
-
     return response.data;
 }
 
@@ -32,34 +25,35 @@ export function getReposWithFiveStars(data: RepoData[]): RepoData[] {
     return data.filter(data => data.stars > 5);
 }
 
-// // From the GitHub API response, get the needed data
-// export async function getRepoData(url: string): Promise<RepoData[]> {
-//     let urlBuilder = (page: number) => url + `?per_page=100&page=${page}`;
+// From the GitHub API response, get the needed data
+export async function getRepoData(url: string): Promise<RepoData[]> {
+    let urlBuilder = (page: number) => url + `?per_page=100&page=${page}`;
 
-//     async function recursiveData<T>(page: number = 1, dataFetch: T[]): Promise<T[]> {   
-//         const fetchedData = await fetchData(urlBuilder(page));
+    async function recursiveData(page: number = 1, dataFetch: APIResponse[]): Promise<APIResponse[]> {   
+        const fetchedData = await fetchData(urlBuilder(page));
 
-//         if (fetchedData.length === 0) return dataFetch;
+        if (fetchedData.length === 0) return dataFetch;
 
-//         return recursiveData(page + 1, dataFetch.concat(fetchedData));
-//     }
+        return recursiveData(page + 1, dataFetch.concat(fetchedData));
+    }
 
-//     const fetchedData = await recursiveData(1, []);
+    const fetchedData = await recursiveData(1, []);
 
-//     return fetchedData.map(repo => ({
-//         repo_name: repo.full_name.split("/")[1],
-//         url: repo.html_url,
-//         updated_at: repo.updated_at,
-//         stars: repo.stargazers_count
-//     }));
-// }
+    return fetchedData.map((repo: APIResponse): RepoData => {
+        return {
+            repo_name: repo.full_name.split("/")[1],
+            url: repo.html_url,
+            updated_at: repo.updated_at,
+            stars: repo.stargazers_count
+        }
+    });
+}
 
 // From the mock files path (ONLY FOR TESTING TO AVOID REQUESTS LIMIT FROM API)
 export function getMockedRepoData(dire: string): RepoData[] {
     let path = (page: number) => dire + page + ".json";
 
     function recursiveData(page: number = 1, dataFetch: RepoData[]): RepoData[] {  
-        
         const getData = fs.readFileSync(path(page));
         const data = JSON.parse(getData.toString());
 

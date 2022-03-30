@@ -37,7 +37,7 @@ const fs = __importStar(require("fs"));
 const url = "https://api.github.com/orgs/stackbuilders/repos";
 const mockPath = "./mock/3_entries/data";
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const data = (0, app_1.getMockedRepoData)(mockPath);
+    const data = yield (0, app_1.getRepoData)(url);
     const wholeDataText = JSON.stringify(data);
     fs.writeFileSync('./data/whole_data.json', wholeDataText);
     const updatedRecentlyText = JSON.stringify((0, app_1.sortReposByUpdateDate)(data));

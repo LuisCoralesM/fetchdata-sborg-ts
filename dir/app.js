@@ -35,13 +35,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMockedRepoData = exports.getReposWithFiveStars = exports.sortReposByUpdateDate = exports.getStarsSum = void 0;
+exports.getMockedRepoData = exports.getRepoData = exports.getReposWithFiveStars = exports.sortReposByUpdateDate = exports.getStarsSum = void 0;
 const fs = __importStar(require("fs"));
 const axios_1 = __importDefault(require("axios"));
-const fetchData = (url) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield axios_1.default.get(url);
-    return response.data;
-});
+function fetchData(url) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const response = yield axios_1.default.get(url);
+        return response.data;
+    });
+}
 function getStarsSum(data) {
     return data.reduce((sum, repo) => sum + repo.stars, 0);
 }
@@ -56,6 +58,29 @@ function getReposWithFiveStars(data) {
     return data.filter(data => data.stars > 5);
 }
 exports.getReposWithFiveStars = getReposWithFiveStars;
+function getRepoData(url) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let urlBuilder = (page) => url + `?per_page=100&page=${page}`;
+        function recursiveData(page = 1, dataFetch) {
+            return __awaiter(this, void 0, void 0, function* () {
+                const fetchedData = yield fetchData(urlBuilder(page));
+                if (fetchedData.length === 0)
+                    return dataFetch;
+                return recursiveData(page + 1, dataFetch.concat(fetchedData));
+            });
+        }
+        const fetchedData = yield recursiveData(1, []);
+        return fetchedData.map((repo) => {
+            return {
+                repo_name: repo.full_name.split("/")[1],
+                url: repo.html_url,
+                updated_at: repo.updated_at,
+                stars: repo.stargazers_count
+            };
+        });
+    });
+}
+exports.getRepoData = getRepoData;
 function getMockedRepoData(dire) {
     let path = (page) => dire + page + ".json";
     function recursiveData(page = 1, dataFetch) {

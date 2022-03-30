@@ -1,12 +1,11 @@
-import { /*getRepoData,*/ getReposWithFiveStars, getStarsSum, sortReposByUpdateDate, getMockedRepoData } from "./app";
+import { getRepoData, getReposWithFiveStars, getStarsSum, sortReposByUpdateDate, getMockedRepoData } from "./app";
 import * as fs from 'fs';
 
 const url: string = "https://api.github.com/orgs/stackbuilders/repos";
 const mockPath: string = "./mock/3_entries/data"; // To avoid requests limit timers using getMockedRepoData function
 
 (async () => {
-    // const data = await getRepoData(url);
-    const data = getMockedRepoData(mockPath);
+    const data = await getRepoData(url);
 
     // Write whole data json
     const wholeDataText = JSON.stringify(data);
