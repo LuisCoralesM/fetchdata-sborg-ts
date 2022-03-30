@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getMockedRepoData = exports.getRepoData = exports.getReposWithFiveStars = exports.sortReposByUpdateDate = exports.getStarsSum = void 0;
+exports.getMockedRepoData = exports.getRepoData = exports.removeReposWithLetter = exports.sortReposAlpha = exports.getTopFiveRepos = exports.getReposWithFiveStars = exports.sortReposByUpdateDate = exports.getStarsSum = void 0;
 const fs = __importStar(require("fs"));
 const axios_1 = __importDefault(require("axios"));
 function fetchData(url) {
@@ -58,6 +58,20 @@ function getReposWithFiveStars(data) {
     return data.filter(data => data.stars > 5);
 }
 exports.getReposWithFiveStars = getReposWithFiveStars;
+function getTopFiveRepos(data) {
+    return data.sort((a, b) => b.stars - a.stars).slice(0, 5);
+}
+exports.getTopFiveRepos = getTopFiveRepos;
+function sortReposAlpha(data) {
+    return data.sort((a, b) => a.repo_name.localeCompare(b.repo_name));
+}
+exports.sortReposAlpha = sortReposAlpha;
+function removeReposWithLetter(data, letter = "h") {
+    return data.filter(data => {
+        return !(data.repo_name.toLowerCase().indexOf(letter) === 0);
+    });
+}
+exports.removeReposWithLetter = removeReposWithLetter;
 function getRepoData(url) {
     return __awaiter(this, void 0, void 0, function* () {
         let urlBuilder = (page) => url + `?per_page=100&page=${page}`;

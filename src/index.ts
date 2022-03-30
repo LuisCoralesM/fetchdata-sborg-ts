@@ -1,4 +1,4 @@
-import { getRepoData, getReposWithFiveStars, getStarsSum, sortReposByUpdateDate, getMockedRepoData } from "./app";
+import { getRepoData, getReposWithFiveStars, getStarsSum, sortReposByUpdateDate, removeReposWithLetter, getTopFiveRepos, sortReposAlpha, getMockedRepoData } from "./app";
 import * as fs from 'fs';
 
 const url: string = "https://api.github.com/orgs/stackbuilders/repos";
@@ -21,4 +21,10 @@ const mockPath: string = "./data/mock/3_entries/data"; // To avoid requests limi
 
     // Write only the total stars
     fs.writeFileSync('./data/stars_sum.txt', getStarsSum(data).toString());
+
+    const topFiveText = JSON.stringify(getTopFiveRepos(data));
+    fs.writeFileSync('./data/top_five_data.json', topFiveText);
+
+    const sortedText = JSON.stringify(removeReposWithLetter(sortReposAlpha(data)));
+    fs.writeFileSync('./data/sorted_alpha_data.json', sortedText);
 })();

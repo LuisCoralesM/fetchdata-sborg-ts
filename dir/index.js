@@ -45,4 +45,8 @@ const mockPath = "./data/mock/3_entries/data";
     const fiveStarsText = JSON.stringify((0, app_1.getReposWithFiveStars)(data));
     fs.writeFileSync('./data/five_stars_data.json', fiveStarsText);
     fs.writeFileSync('./data/stars_sum.txt', (0, app_1.getStarsSum)(data).toString());
+    const topFiveText = JSON.stringify((0, app_1.getTopFiveRepos)(data));
+    fs.writeFileSync('./data/top_five_data.json', topFiveText);
+    const sortedText = JSON.stringify((0, app_1.removeReposWithLetter)((0, app_1.sortReposAlpha)(data)));
+    fs.writeFileSync('./data/sorted_alpha_data.json', sortedText);
 }))();
